@@ -1,0 +1,21 @@
+name: SAM Daily Check
+on:
+  schedule:
+    - cron: '0 13 * * *' # Runs at 1:00 PM UTC daily
+  workflow_dispatch: # Allows you to click a button to run it manually
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Run script
+        env:
+          SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
+        run: python main.py
